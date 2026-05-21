@@ -1,30 +1,42 @@
 # Web Project Around Express
 
-Proyecto backend pequeno construido con Node.js y Express. Esta API sirve datos de usuarios y tarjetas desde archivos JSON locales, usando rutas separadas y manejo basico de errores.
+Small backend project built with Node.js and Express. This API serves user and card data from local JSON files using separate routes and basic error handling.
 
-El proyecto esta en una etapa inicial y pronto seguira creciendo con mas funcionalidades.
+The project is currently in an early stage and will continue growing with more features soon.
 
-## Tecnologias utilizadas
+## Technologies Used
 
 - Node.js
+
 - Express
+
 - JavaScript CommonJS
-- Modulo `fs` para leer archivos JSON
-- Modulo `path` para construir rutas de archivos de forma segura
-- JSON como fuente temporal de datos
-- ESLint con configuracion Airbnb Base
-- Nodemon para desarrollo
 
-## Que hace actualmente
+- `fs` module to read JSON files
 
-- Levanta un servidor Express en `localhost:3000`.
-- Expone rutas para consultar usuarios.
-- Expone rutas para consultar tarjetas.
-- Lee los datos desde archivos dentro de la carpeta `data`.
-- Devuelve errores `404` cuando no encuentra un recurso.
-- Tiene un manejador final para direcciones inexistentes.
+- `path` module to safely build file paths
 
-## Estructura del proyecto
+- JSON as a temporary data source
+
+- ESLint with Airbnb Base configuration
+
+- Nodemon for development
+
+## Current Features
+
+- Starts an Express server on `localhost:3000`.
+
+- Exposes routes to retrieve users.
+
+- Exposes routes to retrieve cards.
+
+- Reads data from files inside the `data` folder.
+
+- Returns `404` errors when a resource is not found.
+
+- Includes a final handler for nonexistent routes.
+
+## Project Structure
 
 ```txt
 .
@@ -39,88 +51,30 @@ El proyecto esta en una etapa inicial y pronto seguira creciendo con mas funcion
 └── README.md
 ```
 
-## Rutas disponibles
+## Available Routes
 
-### Usuarios
+### Users
 
 ```http
 GET /users
 ```
 
-Devuelve la lista completa de usuarios.
+Returns the complete list of users.
 
 ```http
 GET /users/:id
 ```
 
-Devuelve un usuario por su `_id`.
+Returns a user by `_id`.
 
-Si el usuario no existe, responde con estado `404`:
-
-```json
-{
-  "message": "ID de usuario no encontrado"
-}
-```
-
-### Tarjetas
-
-```http
-GET /cards
-```
-
-Devuelve la lista completa de tarjetas.
-
-```http
-GET /cards/:id
-```
-
-Devuelve una tarjeta por su `_id`.
-
-Si la tarjeta no existe, responde con estado `404`.
-
-### Ruta inexistente
-
-Si se solicita una direccion que no existe, la API responde con estado `404`:
+If the user does not exist, the server responds with status `404`:
 
 ```json
 {
-  "message": "Recurso solicitado no encontrado"
+  "message": "User ID not found"
 }
 ```
 
-## Como ejecutar el proyecto
+### Cards
 
-Instalar dependencias:
-
-```bash
-npm install
-```
-
-Iniciar el servidor:
-
-```bash
-npm start
-```
-
-El servidor se ejecuta por defecto en:
-
-```txt
-http://localhost:3000
-```
-
-## Lint
-
-Para revisar el estilo del codigo:
-
-```bash
-npm run lint
-```
-
-## Proximos pasos
-
-- Agregar mas endpoints.
-- Mejorar el manejo de errores.
-- Agregar validaciones.
-- Conectar una base de datos real.
-- Crear controladores separados para mantener los routers mas limpios.
+- Create separate controllers to keep the routers cleaner.
