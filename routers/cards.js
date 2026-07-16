@@ -1,46 +1,17 @@
-const fs = require('fs');
-const path = require('path');
+
+
+const {getCards, 
+    createCard,
+    deleteCard}=require('../controllers/cards')
+
 const cardsRouter = require('express').Router();
 
-const cardsPath = path.join(__dirname, '../data/cards.json');
 
-function readCards(callback) {
-  fs.readFile(cardsPath, 'utf8', (err, data) => {
-    if (err) {
-      callback(err);
-      return;
-    }
 
-    callback(null, JSON.parse(data));
-  });
-}
+cardsRouter.get('/',getCards );
 
-cardsRouter.get('/', (req, res) => {
-  readCards((err, cards) => {
-    if (err) {
-      res.status(500).send({ message: 'Error al leer las tarjetas' });
-      return;
-    }
+cardsRouter.post('/', createCard)
 
-    res.send(cards);
-  });
-});
-
-cardsRouter.get('/:id', (req, res) => {
-  readCards((err, cards) => {
-    if (err) {
-      res.status(500).send({ message: 'Error al leer las tarjetas' });
-      return;
-    }
-
-    const card = cards.find((item) => item._id === req.params.id);
-
-    if (!card) {
-      res.status(404).send({ message: 'ID de tarjeta no encontrado' });
-    } else {
-      res.send(card);
-    }
-  });
-});
+cardsRouter.delete('/:cardId',deleteCard)
 
 module.exports = cardsRouter;
