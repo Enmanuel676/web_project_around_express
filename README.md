@@ -1,54 +1,86 @@
-# Web Project Around Express
+# Web Project Around Express (RESTful API)
 
-Small backend project built with Node.js and Express. This API serves user and card data from local JSON files using separate routes and basic error handling.
-
-The project is currently in an early stage and will continue growing with more features soon.
+Backend project built with Node.js and Express, connected to a MongoDB database. This RESTful API manages user and card data using Mongoose schemas, controllers, and structured routes under the MVC pattern.
 
 ## Technologies Used
 
-- Node.js
-
-- Express
-
-- JavaScript CommonJS
-
-- `fs` module to read JSON files
-
-- `path` module to safely build file paths
-
-- JSON as a temporary data source
-
-- ESLint with Airbnb Base configuration
-
-- Nodemon for development
+- **Node.js**: JavaScript runtime environment.
+- **Express**: Fast, unopinionated, minimalist web framework.
+- **MongoDB**: NoSQL database for document-oriented data storage.
+- **Mongoose**: Elegant MongoDB object modeling for Node.js.
+- **ESLint**: Linter tool configured with Airbnb Base.
+- **Nodemon**: Development tool that restarts the server on code changes.
 
 ## Current Features
 
 - Starts an Express server on `localhost:3000`.
-
-- Exposes routes to retrieve users.
-
-- Exposes routes to retrieve cards.
-
-- Reads data from files inside the `data` folder.
-
-- Returns `404` errors when a resource is not found.
-
-- Includes a final handler for nonexistent routes.
+- Connects to a MongoDB database named `aroundb`.
+- Uses schemas and models to validate users and cards structure.
+- Validates URLs (avatar and card links) using custom regex validators in Mongoose.
+- Uses temporary middleware in `app.js` to simulate user authentication by injecting a hardcoded user object (`req.user`) into all incoming requests.
+- Returns proper HTTP status codes (e.g., `200 OK`, `201 Created`, `400 Bad Request`, `404 Not Found`, `500 Internal Server Error`).
 
 ## Project Structure
 
+The project has been restructured to follow the MVC architecture patterns:
+
 ```txt
 .
-├── app.js
-├── data
-│   ├── cards.json
-│   └── users.json
-├── routers
+├── controllers/          # Database query logic
 │   ├── cards.js
 │   └── users.js
+├── models/               # Mongoose Schemas and Models
+│   ├── cards.js
+│   └── users.js
+├── routers/              # API Endpoint definitions
+│   ├── cards.js
+│   └── users.js
+├── app.js                # Server entry point and database connection
 ├── package.json
 └── README.md
+```
+
+## Available Routes
+
+### Users
+
+- **`GET /users`**
+  Returns the complete list of users from the database.
+
+- **`GET /users/:userId`**
+  Returns a single user by their `_id`.
+
+- **`POST /users`**
+  Creates a new user. The request body must be a JSON object containing:
+  ```json
+  {
+    "name": "Jacques Cousteau",
+    "about": "Explorer",
+    "avatar": "https://code.s3.yandex.net/web-code/avatar.jpg"
+  }
+  ```
+
+- **`DELETE /users/:userId`**
+  Deletes a user by their `_id`.
+
+---
+
+### Cards
+
+- **`GET /cards`**
+  Returns all cards from the database.
+
+- **`POST /cards`**
+  Creates a new card. The author (`owner`) is automatically assigned using the authenticated user's ID (`req.user._id`). The request body must contain:
+  ```json
+  {
+    "name": "Valle de la Muerte",
+    "link": "https://code.s3.yandex.net/web-code/valle-de-la-muerte.jpg"
+  }
+  ```
+
+- **`DELETE /cards/:cardId`**
+  Deletes a card by its `_id`.
 ```
 
 ## Available Routes
