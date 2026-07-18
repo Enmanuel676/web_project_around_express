@@ -22,7 +22,11 @@ Backend project built with Node.js and Express, connected to a MongoDB database.
 
 ## Project Structure
 
+<<<<<<< HEAD
 The project has been restructured to follow the MVC architecture patterns:
+=======
+The project follows the MVC architecture patterns:
+>>>>>>> 88a475e (Develop Mongoose Fase 1-2(Complete))
 
 ```txt
 .
@@ -46,6 +50,7 @@ The project has been restructured to follow the MVC architecture patterns:
 
 - **`GET /users`**
   Returns the complete list of users from the database.
+<<<<<<< HEAD
 
 - **`GET /users/:userId`**
   Returns a single user by their `_id`.
@@ -90,23 +95,66 @@ The project has been restructured to follow the MVC architecture patterns:
 ```http
 GET /users
 ```
+=======
+>>>>>>> 88a475e (Develop Mongoose Fase 1-2(Complete))
 
-Returns the complete list of users.
+- **`GET /users/me`**
+  Returns the current logged-in user's information using `req.user._id`.
 
-```http
-GET /users/:id
-```
+- **`GET /users/:userId`**
+  Returns a single user by their `_id`.
 
-Returns a user by `_id`.
+- **`POST /users`**
+  Creates a new user. The request body must be a JSON object containing:
+  ```json
+  {
+    "name": "Jacques Cousteau",
+    "about": "Explorer",
+    "avatar": "https://code.s3.yandex.net/web-code/avatar.jpg"
+  }
+  ```
 
-If the user does not exist, the server responds with status `404`:
+- **`PATCH /users/me`**
+  Updates the profile name and biography of the logged-in user. The request body must contain:
+  ```json
+  {
+    "name": "New Name",
+    "about": "New Bio"
+  }
+  ```
 
-```json
-{
-  "message": "User ID not found"
-}
-```
+- **`PATCH /users/me/avatar`**
+  Updates the avatar URL of the logged-in user. The request body must contain:
+  ```json
+  {
+    "avatar": "https://url-de-la-imagen.jpg"
+  }
+  ```
+
+- **`DELETE /users/:userId`**
+  Deletes a user by their `_id`.
+
+---
 
 ### Cards
 
-- Create separate controllers to keep the routers cleaner.
+- **`GET /cards`**
+  Returns all cards from the database.
+
+- **`POST /cards`**
+  Creates a new card. The author (`owner`) is automatically assigned using the authenticated user's ID (`req.user._id`). The request body must contain:
+  ```json
+  {
+    "name": "Valle de la Muerte",
+    "link": "https://code.s3.yandex.net/web-code/valle-de-la-muerte.jpg"
+  }
+  ```
+
+- **`DELETE /cards/:cardId`**
+  Deletes a card by its `_id`.
+
+- **`PUT /cards/:cardId/likes`**
+  Likes a card by adding the user's `_id` to the card's `likes` array using the MongoDB `$addToSet` operator (maintaining unique likes).
+
+- **`DELETE /cards/:cardId/likes`**
+  Dislikes a card by removing the user's `_id` from the card's `likes` array using the MongoDB `$pull` operator.
